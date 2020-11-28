@@ -55,3 +55,34 @@ class Board:
                     if board[r - 1, c] == 0 or board[r, c] == board[r - 1, c]:
                         return True
         return False
+
+    def available_moves_for_player(self) -> List[Direction]:
+        """ Returns directions in which the player can move.
+        These are a collection of up, down, left, right directions.
+        """
+        ans = []
+        if self.can_move(Direction.UP):
+            ans.append(Direction.UP)
+        if self.can_move(Direction.DOWN):
+            ans.append(Direction.DOWN)
+        if self.can_move(Direction.LEFT):
+            ans.append(Direction.LEFT)
+        if self.can_move(Direction.RIGHT):
+            ans.append(Direction.RIGHT)
+        return ans
+
+    def available_moves_for_game(self) -> List[Tuple[int]]:
+        """ Returns list of available moves for the game.
+        The game's 'moves' are to place new stones into empty tiles.
+        We assume that the game can only place stones with a value of 2 or 4.
+
+        Returns:
+            tuple(row, col, value)
+        """
+        ans = []
+        for r in range(self.size):
+            for c in range(self.size):
+                if self.board[r, c] == 0:
+                    ans.append((r, c, 2))
+                    ans.append((r, c, 4))
+        return ans
