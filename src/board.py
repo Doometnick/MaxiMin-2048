@@ -16,10 +16,20 @@ class Direction(Enum):
 
 class Board:
 
+    # TODO: np.rot90 enables to do checks/movements with less code, but is
+    # not very efficient as it copies the board variable each time.
+    # write own in-place method for rotation.
+
     def __init__(self, size: int):
         self.board = np.zeros((size, size))
         self.size = size
 
+    def __str__(self):
+        return str(self.board)
+    
+    def __repr__(self):
+        return self.board
+    
     def get_copy(self) -> np.array:
         return deepcopy(self.board)
     
@@ -104,3 +114,36 @@ class Board:
                 if self.board[r, c] == 0:
                     return False
         return True
+
+    def move(self, direction: Direction):
+        if direction == Direction.LEFT:
+            self.board = self.move_left(self.board)
+        elif direction == Direction.UP:
+            board = self.move_left(np.rot90(self.board, 1))
+            self.board = np.rot90(board, 3)
+        elif direction == Direction.RIGHT:
+            board = self.move_left(np.rot90(self.board, 2))
+            self.board = np.rot90(board, 2)
+        elif direction == Direction.DOWN:
+            board = self.move_left(np.rot90(self.board, 3))
+            self.board = np.rot90(board, 1)
+
+
+    def move_left(self, board: np.array) -> np.array:
+        """ Moves all the stones to the left.
+        Stones of equal value will be merged.
+        """
+        for r in range(self.size):
+            for c in range(1, self.size):
+                k = c - 1
+                while k >= 0:
+                    if board[r, k] > 0 and board[r, k] == board[r, c]:
+                        board[r, k] *= 2
+                        board[r, c] = 0
+                        break
+                    elif board[r, k] > 0 and k < c:
+                        board[r, k + 1] = board[r, c]
+                        board[r, c] = 0
+                        break
+                    k -= 1
+        return board
