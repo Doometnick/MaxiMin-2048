@@ -86,3 +86,21 @@ class Board:
                     ans.append((r, c, 2))
                     ans.append((r, c, 4))
         return ans
+
+    def player_cannot_move_anymore(self) -> bool:
+        if self.can_move(Direction.UP):
+            return False
+        if self.can_move(Direction.DOWN):
+            return False
+        if self.can_move(Direction.LEFT):
+            return False
+        if self.can_move(Direction.RIGHT):
+            return False
+        return True
+    
+    def board_is_full(self):
+        for r in range(self.size):
+            for c in range(self.size):
+                if self.board[r, c] == 0:
+                    return False
+        return True
