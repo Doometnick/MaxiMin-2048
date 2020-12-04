@@ -20,9 +20,12 @@ class Board:
     # not very efficient as it copies the board variable each time.
     # write own in-place method for rotation.
 
-    def __init__(self, size: int):
-        self.board = np.zeros((size, size))
-        self.size = size
+    def __init__(self, board: np.array = None, size: int = 4):
+        if board is None:
+            self.board = np.zeros((size, size))
+        else:
+            self.board = board
+        self.size = len(self.board)
 
     def __str__(self):
         return str(self.board)
