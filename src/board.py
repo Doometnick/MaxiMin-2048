@@ -33,6 +33,12 @@ class Board:
     def __repr__(self):
         return self.board
     
+    def __eq__(self, other):
+        for r in range(self.size):
+            for c in range(self.size):
+                if self.board[r, c] != other.board[r, c]:
+                    return False
+        return True
     def get_copy(self) -> np.array:
         return deepcopy(self.board)
     
