@@ -149,22 +149,25 @@ class Board:
             self.board = np.rot90(board, 1)
 
     def move_left(self, board: np.array) -> np.array:
-        """ Moves all the stones to the left.
-        Stones of equal value will be merged.
-        """
         for r in range(self.size):
             for c in range(1, self.size):
+                if board[r, c] == 0:
+                    continue
                 k = c - 1
                 while k >= 0:
-                    if board[r, k] > 0 and board[r, k] == board[r, c]:
+                    if board[r, k] == board[r, c]:
                         board[r, k] *= 2
                         board[r, c] = 0
                         break
-                    elif board[r, k] > 0 and k < c:
-                        board[r, k + 1] = board[r, c]
-                        board[r, c] = 0
+                    elif board[r, k] > 0 and k != c - 1:
+                        board[r, k + 1] = board[r, c] 
+                        board[r, c]  = 0
                         break
                     k -= 1
+
+                if k == -1 and board[r, 0] == 0:
+                    board[r, 0] = board[r, c]
+                    board[r, c] = 0
         return board
 
     def game_over(self) -> bool:
@@ -179,10 +182,12 @@ class Board:
             b.move(Direction.UP)
             if b == board:
                 return Direction.UP
+            b = Board(board=self.get_copy())
         if self.can_move(Direction.DOWN):
             b.move(Direction.DOWN)
             if b == board:
                 return Direction.DOWN
+            b = Board(board=self.get_copy())
         if self.can_move(Direction.LEFT):
             b.move(Direction.LEFT)
             if b == board:
