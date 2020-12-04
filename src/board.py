@@ -40,7 +40,7 @@ class Board:
                     return False
         return True
 
-    def utility(self) -> int:
+    def utility(self) -> float:
         count = 0
         sum = 0
         for r in range(self.size):
@@ -48,7 +48,7 @@ class Board:
                 sum += self.board[r, c]
                 if self.board[r, c] != 0:
                     count += 1
-        return int(sum / count)
+        return sum / count
 
     def get_copy(self) -> np.array:
         return deepcopy(self.board)
