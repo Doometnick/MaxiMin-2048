@@ -39,6 +39,17 @@ class Board:
                 if self.board[r, c] != other.board[r, c]:
                     return False
         return True
+
+    def utility(self) -> int:
+        count = 0
+        sum = 0
+        for r in range(self.size):
+            for c in range(self.size):
+                sum += self.board[r, c]
+                if self.board[r, c] != 0:
+                    count += 1
+        return int(sum / count)
+
     def get_copy(self) -> np.array:
         return deepcopy(self.board)
     
