@@ -148,7 +148,6 @@ class Board:
             board = self.move_left(np.rot90(self.board, 3))
             self.board = np.rot90(board, 1)
 
-
     def move_left(self, board: np.array) -> np.array:
         """ Moves all the stones to the left.
         Stones of equal value will be merged.
@@ -170,3 +169,22 @@ class Board:
 
     def game_over(self) -> bool:
         return self.player_cannot_move_anymore()
+
+    def get_move_to_grid(self, board: 'Board') -> Direction:
+        """ Returns direction in which to move in order
+        to achieve the grid that is given as parameter.
+        """
+        b = Board(board=self.get_copy())
+        if self.can_move(Direction.UP):
+            b.move(Direction.UP)
+            if b == board:
+                return Direction.UP
+        if self.can_move(Direction.DOWN):
+            b.move(Direction.DOWN)
+            if b == board:
+                return Direction.DOWN
+        if self.can_move(Direction.LEFT):
+            b.move(Direction.LEFT)
+            if b == board:
+                return Direction.LEFT
+        return Direction.RIGHT
