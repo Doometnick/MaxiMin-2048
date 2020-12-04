@@ -77,7 +77,7 @@ class Board:
         for c in range(n):
             k = -1
             for r in range(n - 1, -1, -1):
-                if board[r,c] >  0:
+                if board[r,c] > 0:
                     k = r
                     break
             if k > -1:
@@ -167,3 +167,6 @@ class Board:
                         break
                     k -= 1
         return board
+
+    def game_over(self) -> bool:
+        return self.player_cannot_move_anymore()
