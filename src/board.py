@@ -25,6 +25,8 @@ class Board:
             self.board = np.zeros((size, size))
         else:
             self.board = board
+            if type(self.board) != np.array:
+                self.board = np.array(board)
         self.size = len(self.board)
 
     def __str__(self):
