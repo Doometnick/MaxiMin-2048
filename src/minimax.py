@@ -46,5 +46,5 @@ def minimize(state: Board, a: int, b:int, d: int) -> Tuple[Board, int]:
 
 
 def get_best_move(board: Board, depth: int = 5):
-    child, _ = maximize(Board(board.get_copy()), -1, MAX_INT, depth)
-    return board.get_move_to_grid(child)
+    child, util = maximize(Board(board.get_copy()), -1, MAX_INT, depth)
+    return board.get_move_to_grid(child), util
