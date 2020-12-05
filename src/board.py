@@ -172,6 +172,12 @@ class Board:
 
     def game_over(self) -> bool:
         return self.player_cannot_move_anymore()
+    
+    def game_won(self) -> bool:
+        return self.board_contains_stone(2048)
+    
+    def board_contains_stone(self, x: int):
+        return x in self.board
 
     def get_move_to_grid(self, board: 'Board') -> Direction:
         """ Returns direction in which to move in order
