@@ -151,25 +151,27 @@ class Board:
             self.board = np.rot90(board, 1)
 
     def move_left(self, board: np.array) -> np.array:
-        for r in range(self.size):
-            for c in range(1, self.size):
-                if board[r, c] == 0:
+        for i in range(self.size):
+            w = 0
+            k = 0
+            for j in range(self.size):
+                if board[i][j] == 0:
                     continue
-                k = c - 1
-                while k >= 0:
-                    if board[r, k] == board[r, c]:
-                        board[r, k] *= 2
-                        board[r, c] = 0
-                        break
-                    elif board[r, k] > 0 and k != c - 1:
-                        board[r, k + 1] = board[r, c] 
-                        board[r, c]  = 0
-                        break
-                    k -= 1
-
-                if k == -1 and board[r, 0] == 0:
-                    board[r, 0] = board[r, c]
-                    board[r, c] = 0
+                if k == 0:
+                    k = board[i][j]
+                elif k == board[i][j]:
+                    board[i][w] = 2 * k
+                    w += 1
+                    k = 0
+                else:
+                    board[i][w] = k
+                    w += 1
+                    k = board[i][j]
+            if k != 0:
+                board[i][w] = k
+                w += 1
+            for j in range(w, self.size):
+                board[i][j] = 0
         return board
 
     def game_over(self) -> bool:
